@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>cigarettes.com — The Digital Humidor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&amp;family=Noto+Serif:wght@400;700&amp;family=Work+Sans:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed": "#29170c",
+              "on-secondary-fixed": "#241a00",
+              "surface-variant": "#eee1c9",
+              "on-background": "#211b0c",
+              "inverse-on-surface": "#fdefd7",
+              "tertiary-fixed": "#e8e1da",
+              "on-secondary": "#ffffff",
+              "on-surface": "#211b0c",
+              "surface-bright": "#fff8f1",
+              "secondary-fixed-dim": "#e6c364",
+              "on-secondary-fixed-variant": "#584400",
+              "on-tertiary-fixed-variant": "#4a4641",
+              "on-error-container": "#93000a",
+              "tertiary-container": "#211e1a",
+              "surface-dim": "#e5d9c1",
+              "primary": "#0d0300",
+              "on-secondary-container": "#785d00",
+              "on-primary-container": "#9d806f",
+              "surface-container-lowest": "#ffffff",
+              "secondary-container": "#fed977",
+              "on-primary-fixed-variant": "#594234",
+              "surface-container-high": "#f4e7cf",
+              "surface": "#fff8f1",
+              "primary-fixed-dim": "#e1c0ad",
+              "inverse-surface": "#37301f",
+              "on-tertiary-fixed": "#1e1b17",
+              "surface-container-low": "#fff2db",
+              "primary-fixed": "#fedcc8",
+              "surface-container": "#faecd4",
+              "secondary": "#755b00",
+              "tertiary": "#060503",
+              "on-error": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "primary-container": "#2c1a0e",
+              "surface-container-highest": "#eee1c9",
+              "secondary-fixed": "#ffe08f",
+              "outline-variant": "#d3c4bc",
+              "error-container": "#ffdad6",
+              "inverse-primary": "#e1c0ad",
+              "surface-tint": "#72594a",
+              "on-surface-variant": "#4f453f",
+              "error": "#ba1a1a",
+              "on-primary": "#ffffff",
+              "outline": "#81756e",
+              "background": "#fff8f1",
+              "tertiary-fixed-dim": "#ccc5bf",
+              "on-tertiary-container": "#8a857f"
+            },
+            fontFamily: {
+              "headline": ["Newsreader", "serif"],
+              "body": ["Noto Serif", "serif"],
+              "label": ["Work Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"><circle cx="6" cy="6" r="4" fill="%23755b00" opacity="0.8"/></svg>'), auto;
+        }
+        .grain-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        .smoke-strand {
+            position: absolute;
+            width: 2px;
+            background: linear-gradient(to top, rgba(232, 225, 218, 0.4), transparent);
+            filter: blur(8px);
+            border-radius: 50%;
+        }
+        .ember-glow {
+            box-shadow: 0 0 15px 5px rgba(255, 69, 0, 0.6), 0 0 5px 2px rgba(255, 255, 0, 0.4);
+        }
+        /* Custom Masonry-like behavior with columns */
+        .masonry-grid {
+            column-count: 1;
+            column-gap: 2rem;
+        }
+        @media (min-width: 768px) { .masonry-grid { column-count: 2; } }
+        @media (min-width: 1024px) { .masonry-grid { column-count: 3; } }
+        
+        .card-break-inside {
+            break-inside: avoid;
+            margin-bottom: 2rem;
+        }
+
+        .pack-lid {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: top;
+        }
+        .pack-container:hover .pack-lid {
+            transform: rotateX(-110deg);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-secondary/30">
+<div class="grain-overlay"></div>
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#fff8f1]/85 dark:bg-[#0d0300]/85 backdrop-blur-md border-b border-[#2c1a0e]/10 shadow-[0_20px_40px_rgba(41,23,12,0.08)]">
+<div class="flex justify-between items-center h-24 px-12 max-w-[1920px] mx-auto cursor-[url('data:image/svg+xml;utf8,&lt;svg xmlns=\'http://www.w3.org/2000/svg\' width=\'8\' height=\'8\'&gt;&lt;circle cx=\'4\' cy=\'4\' r=\'3\' fill=\'%23755b00\'/&gt;&lt;/svg&gt;\'),_auto]">
+<div class="flex items-center gap-8">
+<a class="text-3xl font-serif italic text-[#0d0300] dark:text-[#eee1c9] font-headline tracking-tighter" href="#">cigarettes.com</a>
+<div class="hidden md:flex gap-8 font-newsreader tracking-tighter">
+<a class="text-[#755b00] border-b-2 border-[#755b00] pb-1 transition-colors duration-300" href="#home">Home</a>
+<a class="text-[#2c1a0e]/70 dark:text-[#eee1c9]/70 hover:text-[#755b00] transition-colors duration-300" href="#brands">Brands</a>
+<a class="text-[#2c1a0e]/70 dark:text-[#eee1c9]/70 hover:text-[#755b00] transition-colors duration-300" href="#smoke-room">The Smoke Room</a>
+<a class="text-[#2c1a0e]/70 dark:text-[#eee1c9]/70 hover:text-[#755b00] transition-colors duration-300" href="#about">About</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex items-center bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant/20">
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm font-label w-48" placeholder="Explore the humidor..." type="text"/>
+</div>
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="pt-24 min-h-screen">
+<!-- Hero Section -->
+<section class="relative min-h-[870px] flex items-center justify-center overflow-hidden px-6 lg:px-24" id="home">
+<div class="absolute inset-0 bg-gradient-to-b from-transparent to-surface-container-low/30 pointer-events-none"></div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full max-w-7xl relative z-10">
+<div class="space-y-8 order-2 lg:order-1">
+<h1 class="font-headline text-6xl lg:text-8xl leading-none text-primary italic tracking-tight">
+                        The world’s finest smokes, <span class="text-secondary">curated.</span>
+</h1>
+<p class="font-body text-xl text-on-surface-variant max-w-lg leading-relaxed">
+                        An editorial journey through the heritage, craft, and culture of premium tobacco. Discover the legacy of the cigarette.
+                    </p>
+<div class="flex gap-4">
+<button class="bg-primary-container text-surface-bright px-8 py-4 rounded-md font-label uppercase tracking-widest text-xs hover:bg-primary transition-all shadow-xl">
+                            Explore Collections
+                        </button>
+<button class="border border-primary/20 text-primary px-8 py-4 rounded-md font-label uppercase tracking-widest text-xs hover:bg-surface-container-highest transition-all">
+                            The Smoke Room
+                        </button>
+</div>
+</div>
+<!-- Animated Cigarette -->
+<div class="relative flex justify-center order-1 lg:order-2">
+<div class="relative w-16 h-80 bg-[#fefefe] rounded-sm shadow-2xl origin-bottom rotate-12 flex flex-col items-center">
+<!-- Filter -->
+<div class="absolute bottom-0 w-full h-24 bg-[#e9bc87] rounded-b-sm border-t border-black/10">
+<div class="w-full h-full opacity-20" style="background-image: radial-gradient(#000 1px, transparent 0); background-size: 4px 4px;"></div>
+</div>
+<!-- Logo on Cigarette -->
+<div class="absolute bottom-28 font-serif text-[10px] text-primary/40 tracking-widest uppercase -rotate-90">CIGARETTES.COM</div>
+<!-- Ember -->
+<div class="absolute -top-1 w-full h-4 bg-zinc-800 rounded-t-sm overflow-hidden">
+<div class="ember-glow absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-orange-600 rounded-full animate-pulse"></div>
+</div>
+<!-- Smoke Strands -->
+<div class="absolute -top-24 w-full h-48 pointer-events-none">
+<div class="smoke-strand h-32 left-4 animate-bounce" style="animation-duration: 4s; opacity: 0.3;"></div>
+<div class="smoke-strand h-40 left-8 animate-pulse" style="animation-duration: 5s; opacity: 0.2; transform: translateX(10px);"></div>
+<div class="smoke-strand h-24 right-4 animate-bounce" style="animation-duration: 3.5s; opacity: 0.25;"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Brands Pinterest Grid -->
+<section class="py-24 px-6 lg:px-12 bg-surface-container-low" id="brands">
+<div class="max-w-7xl mx-auto">
+<header class="mb-16 flex flex-col md:flex-row justify-between items-end gap-6">
+<div class="space-y-2">
+<span class="font-label text-secondary uppercase tracking-[0.3em] text-[10px] font-semibold">The Portfolio</span>
+<h2 class="font-headline text-5xl text-primary italic">Heritage Brands</h2>
+</div>
+<div class="flex gap-4 font-label text-xs uppercase tracking-widest">
+<button class="text-secondary font-bold border-b border-secondary">All</button>
+<button class="text-on-surface-variant hover:text-primary">Premium</button>
+<button class="text-on-surface-variant hover:text-primary">Classic</button>
+<button class="text-on-surface-variant hover:text-primary">Modern</button>
+</div>
+</header>
+<div class="masonry-grid">
+<!-- Brand Card 1: Parliament -->
+<div class="card-break-inside pack-container group relative">
+<div class="bg-surface p-8 rounded-xl shadow-sm border border-outline-variant/10 hover:shadow-2xl transition-all duration-500 overflow-hidden">
+<div class="relative w-40 h-56 mx-auto mb-8 perspective-1000">
+<!-- Pack Lid (Back/Inner) -->
+<div class="absolute top-0 w-full h-12 bg-surface-variant pack-lid z-20 border-b border-white/20"></div>
+<!-- Pack Body -->
+<div class="w-full h-full bg-white border border-outline-variant/20 flex flex-col relative z-10 shadow-lg">
+<div class="h-1/3 bg-[#002e6e] flex items-center justify-center p-4">
+<div class="w-full h-full border border-white/20 flex items-center justify-center">
+<span class="text-white font-headline text-lg italic tracking-tighter">Parliament</span>
+</div>
+</div>
+<div class="flex-1 p-4 flex flex-col justify-between">
+<div class="text-[8px] font-label text-center text-primary/40 uppercase tracking-widest">Recessed Filter</div>
+<div class="border border-primary/10 h-12 flex items-center justify-center">
+<span class="text-[10px] text-primary/30 uppercase">Night Blue</span>
+</div>
+</div>
+</div>
+<!-- Cigarette Tips (Visible when lid flips) -->
+<div class="absolute top-2 left-4 right-4 flex gap-1 justify-center z-0">
+<div class="w-2 h-12 bg-[#fff8f1] rounded-t-sm border border-primary/5"></div>
+<div class="w-2 h-14 bg-[#fff8f1] rounded-t-sm border border-primary/5"></div>
+<div class="w-2 h-12 bg-[#fff8f1] rounded-t-sm border border-primary/5"></div>
+</div>
+</div>
+<h3 class="font-headline text-2xl text-primary mb-2">Parliament Night Blue</h3>
+<p class="font-body text-sm text-on-surface-variant mb-4 leading-relaxed">The pinnacle of technical filtration, offering a clean, sharp smoke since 1931.</p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant/10">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">Full Flavor | 0.8mg Nic</span>
+<button class="material-symbols-outlined text-secondary hover:scale-110 transition-transform" data-icon="bookmark">bookmark</button>
+</div>
+</div>
+</div>
+<!-- Brand Card 2: Davidoff -->
+<div class="card-break-inside pack-container group relative">
+<div class="bg-surface p-8 rounded-xl shadow-sm border border-outline-variant/10 hover:shadow-2xl transition-all duration-500 overflow-hidden">
+<div class="relative w-40 h-56 mx-auto mb-8">
+<div class="w-full h-full bg-[#fdfdfd] border-l-8 border-secondary-fixed-dim border border-outline-variant/20 flex flex-col p-4 shadow-lg">
+<div class="flex-1 border border-secondary/10 flex flex-col items-center justify-center space-y-2">
+<div class="text-secondary font-headline text-xl italic">Davidoff</div>
+<div class="w-8 h-[1px] bg-secondary/30"></div>
+<div class="text-[8px] font-label text-primary/40 tracking-[0.4em] uppercase">Classic</div>
+</div>
+</div>
+</div>
+<h3 class="font-headline text-2xl text-primary mb-2">Davidoff Classic</h3>
+<p class="font-body text-sm text-on-surface-variant mb-4 leading-relaxed">Swiss precision and elite tobacco blending for the discerning palate.</p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant/10">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">Gold Standard | 0.9mg Nic</span>
+<button class="material-symbols-outlined text-secondary hover:scale-110 transition-transform" data-icon="bookmark">bookmark</button>
+</div>
+</div>
+</div>
+<!-- Brand Card 3: Sobranie -->
+<div class="card-break-inside pack-container group relative">
+<div class="bg-primary-container p-8 rounded-xl shadow-sm border border-white/5 hover:shadow-2xl transition-all duration-500 overflow-hidden">
+<div class="relative w-40 h-56 mx-auto mb-8">
+<div class="w-full h-full bg-[#0d0300] border-2 border-secondary/40 flex flex-col items-center justify-center p-4 shadow-lg">
+<div class="text-secondary font-headline text-2xl italic tracking-widest">Sobranie</div>
+<div class="text-[7px] text-secondary-fixed uppercase tracking-[0.5em] mt-2">Black Russian</div>
+<div class="mt-4 flex gap-1">
+<div class="w-1 h-1 rounded-full bg-secondary/50"></div>
+<div class="w-1 h-1 rounded-full bg-secondary/50"></div>
+<div class="w-1 h-1 rounded-full bg-secondary/50"></div>
+</div>
+</div>
+</div>
+<h3 class="font-headline text-2xl text-surface-bright mb-2">Sobranie Black Russian</h3>
+<p class="font-body text-sm text-tertiary-fixed-dim mb-4 leading-relaxed">Unapologetic opulence. Handmade aesthetic with gold foil filters.</p>
+<div class="flex justify-between items-center pt-4 border-t border-white/10">
+<span class="font-label text-[10px] text-secondary-fixed uppercase tracking-widest">Exotic | 0.7mg Nic</span>
+<button class="material-symbols-outlined text-secondary-fixed hover:scale-110 transition-transform" data-icon="bookmark">bookmark</button>
+</div>
+</div>
+</div>
+<!-- Brand Card 4: Lucky Strike -->
+<div class="card-break-inside pack-container group relative">
+<div class="bg-surface p-8 rounded-xl shadow-sm border border-outline-variant/10 hover:shadow-2xl transition-all duration-500 overflow-hidden">
+<div class="relative w-40 h-56 mx-auto mb-8">
+<div class="w-full h-full bg-[#f4e7cf] border border-outline-variant/20 flex flex-col items-center justify-center relative shadow-lg">
+<div class="w-24 h-24 rounded-full border-[6px] border-red-700 flex items-center justify-center">
+<div class="w-20 h-20 rounded-full border-2 border-red-700/20 flex flex-col items-center justify-center">
+<span class="text-[10px] font-bold text-red-800 leading-none">LUCKY</span>
+<span class="text-[10px] font-bold text-red-800 leading-none">STRIKE</span>
+</div>
+</div>
+<div class="absolute bottom-4 text-[8px] font-bold text-primary/60 italic uppercase tracking-tighter underline">It's Toasted</div>
+</div>
+</div>
+<h3 class="font-headline text-2xl text-primary mb-2">Lucky Strike Red</h3>
+<p class="font-body text-sm text-on-surface-variant mb-4 leading-relaxed">The original "Toasted" flavor. A bold Americana classic since 1871.</p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant/10">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">Classic | 1.0mg Nic</span>
+<button class="material-symbols-outlined text-secondary hover:scale-110 transition-transform" data-icon="bookmark">bookmark</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- The Smoke Room (Tools) -->
+<section class="py-24 px-6 lg:px-24 bg-surface-bright" id="smoke-room">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-20">
+<h2 class="font-headline text-6xl text-primary mb-4 italic">The Smoke Room</h2>
+<p class="font-body text-lg text-on-surface-variant max-w-2xl mx-auto">Curated utilities for the modern smoker to track, calculate, and manage their consumption with elegance.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+<!-- Calculator Card -->
+<div class="bg-surface-container p-10 rounded-2xl shadow-sm border border-outline-variant/20">
+<div class="flex items-center gap-4 mb-10">
+<span class="material-symbols-outlined text-secondary text-4xl" data-icon="calculate">calculate</span>
+<h3 class="font-headline text-3xl">Count the Cost</h3>
+</div>
+<div class="space-y-10">
+<div class="space-y-4">
+<div class="flex justify-between font-label text-xs uppercase tracking-widest text-primary/60">
+<span>Daily Consumption</span>
+<span class="text-primary font-bold">20 Cigarettes</span>
+</div>
+<input class="w-full h-1 bg-surface-container-highest appearance-none cursor-pointer accent-secondary" max="60" min="1" type="range" value="20"/>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between font-label text-xs uppercase tracking-widest text-primary/60">
+<span>Price per Pack (20s)</span>
+<span class="text-primary font-bold">$14.50</span>
+</div>
+<input class="w-full h-1 bg-surface-container-highest appearance-none cursor-pointer accent-secondary" max="40" min="5" step="0.5" type="range" value="14.5"/>
+</div>
+<div class="pt-8 grid grid-cols-2 gap-6 border-t border-outline-variant/20">
+<div class="space-y-1">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">Annual Spend</span>
+<div class="font-headline text-4xl text-primary">$5,292</div>
+</div>
+<div class="space-y-1">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">Total Sticks</span>
+<div class="font-headline text-4xl text-secondary">7,300</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Ledger Card -->
+<div class="bg-primary-container p-10 rounded-2xl shadow-xl text-surface-bright relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-secondary/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+<div class="flex justify-between items-start mb-10 relative z-10">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary-fixed text-4xl" data-icon="book">book</span>
+<h3 class="font-headline text-3xl">The Ledger</h3>
+</div>
+<button class="bg-secondary text-primary-container px-6 py-2 rounded-full font-label text-[10px] font-bold uppercase tracking-widest hover:scale-105 transition-transform active:scale-95">
+                                Log +1
+                            </button>
+</div>
+<div class="flex items-center gap-12 mb-10 relative z-10">
+<div class="relative w-32 h-32 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-white/10" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-secondary" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364" stroke-dashoffset="100" stroke-width="8"></circle>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="font-headline text-3xl">12</span>
+<span class="font-label text-[8px] uppercase tracking-widest opacity-60">Today</span>
+</div>
+</div>
+<div class="flex-1 space-y-4">
+<div class="font-label text-xs uppercase tracking-widest opacity-60">Weekly Consumption</div>
+<!-- Mock Chart -->
+<div class="flex items-end gap-2 h-20">
+<div class="flex-1 bg-white/10 rounded-t-sm h-12 hover:bg-secondary transition-colors cursor-help" title="Mon: 15"></div>
+<div class="flex-1 bg-white/10 rounded-t-sm h-16 hover:bg-secondary transition-colors cursor-help" title="Tue: 18"></div>
+<div class="flex-1 bg-secondary rounded-t-sm h-14" title="Wed (Today): 14"></div>
+<div class="flex-1 bg-white/5 rounded-t-sm h-8 opacity-20"></div>
+<div class="flex-1 bg-white/5 rounded-t-sm h-10 opacity-20"></div>
+<div class="flex-1 bg-white/5 rounded-t-sm h-6 opacity-20"></div>
+<div class="flex-1 bg-white/5 rounded-t-sm h-9 opacity-20"></div>
+</div>
+</div>
+</div>
+<div class="space-y-2 relative z-10">
+<span class="font-label text-[10px] text-secondary-fixed uppercase tracking-widest mb-2 block">Recent Entries</span>
+<div class="space-y-1">
+<div class="flex justify-between items-center py-2 px-4 bg-white/5 rounded text-xs border-l-2 border-secondary">
+<span>Davidoff Classic</span>
+<span class="opacity-40">14:22 PM</span>
+</div>
+<div class="flex justify-between items-center py-2 px-4 bg-white/5 rounded text-xs border-l-2 border-secondary/20">
+<span>Lucky Strike Red</span>
+<span class="opacity-40">11:05 AM</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- About Section -->
+<section class="py-32 px-6 lg:px-24 bg-[#0d0300] text-[#eee1c9] relative" id="about">
+<div class="max-w-4xl mx-auto text-center space-y-12">
+<span class="font-label text-secondary uppercase tracking-[0.5em] text-xs">Our Philosophy</span>
+<h2 class="font-headline text-5xl lg:text-7xl italic leading-tight">Ritual, Heritage, <br/>&amp; Refined Discovery.</h2>
+<p class="font-body text-xl leading-relaxed opacity-80">
+                    Cigarettes.com is not just a portal; it is an archive of a disappearing craft. We believe in the slow appreciation of tobacco, focusing on the historical brand narratives and the tactile experience of premium packs. In a world of fast digital consumption, we invite you to pause, discover, and document.
+                </p>
+<div class="h-px w-24 bg-secondary/30 mx-auto"></div>
+<div class="flex justify-center gap-12 font-label text-[10px] uppercase tracking-[0.3em]">
+<div class="flex flex-col gap-2">
+<span class="text-secondary font-bold text-lg">1,200+</span>
+<span>Archived Brands</span>
+</div>
+<div class="flex flex-col gap-2">
+<span class="text-secondary font-bold text-lg">1871</span>
+<span>Library Origins</span>
+</div>
+<div class="flex flex-col gap-2">
+<span class="text-secondary font-bold text-lg">Global</span>
+<span>Community</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#eee1c9] dark:bg-[#060503] w-full py-12 relative">
+<div class="absolute inset-0 bg-gradient-to-t from-[#2c1a0e]/5 to-transparent pointer-events-none"></div>
+<div class="flex flex-col md:flex-row justify-between items-center px-12 gap-6 relative z-10 max-w-[1920px] mx-auto">
+<div class="flex items-center gap-8">
+<span class="font-newsreader text-lg text-[#2c1a0e] dark:text-[#e8e1da] font-headline italic">cigarettes.com</span>
+<div class="flex gap-6 font-workSans text-[10px] uppercase tracking-widest text-[#2c1a0e]/50 dark:text-[#e8e1da]/50">
+<a class="hover:text-[#0d0300] dark:hover:text-white transition-all" href="#">Privacy</a>
+<a class="hover:text-[#0d0300] dark:hover:text-white transition-all" href="#">Terms of Service</a>
+<a class="hover:text-[#0d0300] dark:hover:text-white transition-all" href="#">Age Verification</a>
+<a class="hover:text-[#0d0300] dark:hover:text-white transition-all" href="#">Contact</a>
+</div>
+</div>
+<div class="text-[#2c1a0e]/50 dark:text-[#e8e1da]/50 font-workSans text-[10px] uppercase tracking-widest">
+                © 2024 cigarettes.com — The Digital Humidor
+            </div>
+</div>
+</footer>
+<!-- FAB Support -->
+<div class="fixed bottom-8 right-8 z-40">
+<button class="w-14 h-14 bg-secondary text-primary-container rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all group">
+<span class="material-symbols-outlined group-hover:rotate-12 transition-transform" data-icon="add">add</span>
+</button>
+</div>
+</body></html>
