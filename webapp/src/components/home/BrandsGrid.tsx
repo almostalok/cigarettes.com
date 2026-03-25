@@ -1,171 +1,296 @@
-import { Bookmark } from "lucide-react";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, Bookmark, Search, SlidersHorizontal } from "lucide-react";
+import { BRANDS, type Category } from "../../data/brands";
 
-const BRANDS = [
-  {
-    id: "parliament",
-    name: "Parliament Night Blue",
-    desc: "The pinnacle of technical filtration, offering a clean, sharp smoke since 1931.",
-    tag: "Full Flavor",
-    nic: "0.8mg Nic",
-    bg: "bg-surface",
-    renderPack: () => (
-      <div className="w-full h-full bg-white border border-outline-variant/20 flex flex-col relative z-10 shadow-lg">
-        <div className="h-1/3 bg-[#002e6e] flex items-center justify-center p-4">
-          <div className="w-full h-full border border-white/20 flex items-center justify-center">
-            <span className="text-white font-headline text-lg italic tracking-tighter">Parliament</span>
-          </div>
-        </div>
-        <div className="flex-1 p-4 flex flex-col justify-between">
-          <div className="text-[8px] font-label text-center text-primary/40 uppercase tracking-widest">Recessed Filter</div>
-          <div className="border border-primary/10 h-12 flex items-center justify-center">
-            <span className="text-[10px] text-primary/30 uppercase">Night Blue</span>
-          </div>
-        </div>
-      </div>
-    )
-  },
-  {
-    id: "davidoff",
-    name: "Davidoff Classic",
-    desc: "Swiss precision and elite tobacco blending for the discerning palate.",
-    tag: "Gold Standard",
-    nic: "0.9mg Nic",
-    bg: "bg-surface",
-    renderPack: () => (
-      <div className="w-full h-full bg-[#fdfdfd] border-l-8 border-secondary-fixed-dim border-outline-variant/20 flex flex-col p-4 shadow-lg">
-        <div className="flex-1 border border-secondary/10 flex flex-col items-center justify-center space-y-2">
-          <div className="text-secondary font-headline text-xl italic">Davidoff</div>
-          <div className="w-8 h-[1px] bg-secondary/30" />
-          <div className="text-[8px] font-label text-primary/40 tracking-[0.4em] uppercase">Classic</div>
-        </div>
-      </div>
-    )
-  },
-  {
-    id: "sobranie",
-    name: "Sobranie Black Russian",
-    desc: "Unapologetic opulence. Handmade aesthetic with gold foil filters.",
-    tag: "Exotic",
-    nic: "0.7mg Nic",
-    bg: "bg-primary-container",
-    textColors: { title: "text-surface-bright", desc: "text-tertiary-fixed-dim", tag: "text-secondary-fixed", icon: "text-secondary-fixed", border: "border-white/10" },
-    renderPack: () => (
-      <div className="w-full h-full bg-[#0d0300] border-2 border-secondary/40 flex flex-col items-center justify-center p-4 shadow-lg">
-        <div className="text-secondary font-headline text-2xl italic tracking-widest">Sobranie</div>
-        <div className="text-[7px] text-secondary-fixed uppercase tracking-[0.5em] mt-2">Black Russian</div>
-        <div className="mt-4 flex gap-1">
-          <div className="w-1 h-1 rounded-full bg-secondary/50" />
-          <div className="w-1 h-1 rounded-full bg-secondary/50" />
-          <div className="w-1 h-1 rounded-full bg-secondary/50" />
-        </div>
-      </div>
-    )
-  },
-  {
-    id: "lucky",
-    name: "Lucky Strike Red",
-    desc: "The original \"Toasted\" flavor. A bold Americana classic since 1871.",
-    tag: "Classic",
-    nic: "1.0mg Nic",
-    bg: "bg-surface",
-    renderPack: () => (
-      <div className="w-full h-full bg-[#f4e7cf] border border-outline-variant/20 flex flex-col items-center justify-center relative shadow-lg">
-        <div className="w-24 h-24 rounded-full border-[6px] border-red-700 flex items-center justify-center">
-          <div className="w-20 h-20 rounded-full border-2 border-red-700/20 flex flex-col items-center justify-center">
-            <span className="text-[10px] font-bold text-red-800 leading-none">LUCKY</span>
-            <span className="text-[10px] font-bold text-red-800 leading-none">STRIKE</span>
-          </div>
-        </div>
-        <div className="absolute bottom-4 text-[8px] font-bold text-primary/60 italic uppercase tracking-tighter underline">It&apos;s Toasted</div>
-      </div>
-    )
-  }
+function FallbackImage({ src, alt, className, fallback }: { src: string; alt: string; className?: string; fallback: React.ReactNode }) {
+  const [error, setError] = useState(false);
+  if (error) return <>{fallback}</>;
+  return <img src={src} alt={alt} className={className} onError={() => setError(true)} />;
+}
+
+const CATEGORIES: Category[] = [
+  "All", 
+  "Indian Local", 
+  "International", 
+  "Premium / Luxury", 
+  "Light / Mild", 
+  "Herbal", 
+  "Menthol", 
+  "Budget"
 ];
 
 export function BrandsGrid() {
-  const [filter, setFilter] = useState("All");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<Category>("All");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const selectedBrand = BRANDS.find(b => b.id === selectedId);
+
+  // Filter logic
+  const filteredBrands = useMemo(() => {
+    return BRANDS.filter(brand => {
+      const matchesCategory = activeCategory === "All" || brand.category === activeCategory;
+      const matchesSearch = brand.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                            brand.desc.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [activeCategory, searchQuery]);
 
   return (
-    <section id="brands" className="py-24 px-6 lg:px-12 bg-surface-container-low">
-      <div className="max-w-7xl mx-auto">
-        
-        <header className="mb-16 flex flex-col md:flex-row justify-between items-end gap-6">
-          <div className="space-y-2">
+    <section id="brands" className="py-24 px-6 lg:px-12 bg-surface-container-low min-h-screen relative">
+      <div className="max-w-[1920px] mx-auto">
+        <header className="mb-14 flex flex-col lg:flex-row justify-between lg:items-end gap-10 max-w-7xl mx-auto">
+          <div className="space-y-4">
             <span className="font-label text-secondary uppercase tracking-[0.3em] text-[10px] font-semibold">The Portfolio</span>
-            <h2 className="font-headline text-5xl text-primary italic">Heritage Brands</h2>
+            <h2 className="font-headline text-5xl md:text-6xl text-primary italic">Heritage Brands</h2>
+            <p className="font-body text-on-surface-variant max-w-md">
+              Select a pack from the humidor to uncover its history, specifications, and legacy.
+            </p>
           </div>
           
-          <div className="flex gap-6 font-label text-xs uppercase tracking-widest">
-            {["All", "Premium", "Classic", "Modern"].map(f => (
-              <button 
-                key={f}
-                onClick={() => setFilter(f)}
-                className={`transition-colors duration-300 ${filter === f ? "text-secondary font-bold border-b border-secondary pb-1" : "text-on-surface-variant hover:text-primary pb-1 border-b border-transparent"}`}
-              >
-                {f}
-              </button>
-            ))}
+          {/* Search & Filter Toolbar */}
+          <div className="flex flex-col sm:flex-row gap-4 lg:items-center">
+            {/* Search Input */}
+            <div className="relative flex items-center bg-surface-bright px-4 py-3 rounded-full border border-outline-variant/30 shadow-sm focus-within:border-secondary transition-colors">
+              <Search className="text-on-surface-variant w-4 h-4 mr-3" />
+              <input
+                type="text"
+                placeholder="Search brands..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="bg-transparent border-none focus:outline-none focus:ring-0 text-sm font-label w-full sm:w-48 text-on-surface"
+              />
+            </div>
+
+            {/* Category Pills */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 hide-scrollbar rounded-full p-1 bg-surface-container border border-outline-variant/20 shadow-inner">
+              <div className="bg-surface-bright p-2 rounded-full sm:hidden mr-2">
+                <SlidersHorizontal className="w-4 h-4 text-secondary" />
+              </div>
+              {CATEGORIES.map(category => (
+                <button
+                  key={category}
+                  onClick={() => setActiveCategory(category)}
+                  className={`px-5 py-2 rounded-full font-label text-xs uppercase tracking-widest transition-all duration-300 whitespace-nowrap ${
+                    activeCategory === category 
+                      ? "bg-secondary text-primary-container font-bold shadow-md" 
+                      : "text-on-surface-variant hover:text-primary hover:bg-surface-bright"
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
           </div>
         </header>
 
-        <motion.div 
-          className="masonry-grid"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={{
-            hidden: {},
-            visible: { transition: { staggerChildren: 0.1 } }
-          }}
-        >
-          {BRANDS.map((brand) => (
+        {/* Minimalist Grid of only Packs */}
+        <motion.div layout className="flex flex-wrap justify-center gap-x-8 gap-y-16 max-w-7xl mx-auto min-h-[50vh]">
+          <AnimatePresence>
+            {filteredBrands.map((brand) => (
+              <motion.div
+                layoutId={`pack-envelope-${brand.id}`}
+                layout
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.4 }}
+                key={brand.id}
+                onClick={() => setSelectedId(brand.id)}
+                className="relative w-36 h-52 cursor-pointer perspective-1000 group z-10"
+                whileHover={{ y: -8, scale: 1.03 }}
+              >
+                <div className="w-full h-full shadow-[0_15px_30px_rgba(0,0,0,0.15)] group-hover:shadow-[0_25px_50px_rgba(0,0,0,0.25)] transition-shadow duration-300 relative">
+                  <motion.div 
+                    layoutId={`pack-front-${brand.id}`}
+                    className="w-full h-full bg-white relative overflow-hidden"
+                  >
+                    {brand.coverImage ? (
+                      <FallbackImage 
+                        src={brand.coverImage} 
+                        alt={brand.name} 
+                        className="w-full h-full object-cover" 
+                        fallback={
+                          <div className="w-full h-full bg-surface-variant flex flex-col justify-center items-center p-2 text-center rounded-sm">
+                            <span className="text-xs font-headline font-bold text-on-surface opacity-40">{brand.name}</span>
+                            <span className="text-[8px] font-label uppercase tracking-widest text-secondary mt-1">Cover Needed</span>
+                            <span className="text-[6px] text-on-surface opacity-30 mt-2 break-all px-1 underline">{brand.coverImage}</span>
+                          </div>
+                        }
+                      />
+                    ) : brand.renderPackFront ? (
+                      brand.renderPackFront()
+                    ) : (
+                      <div className="w-full h-full bg-surface-variant flex flex-col justify-center items-center p-2 text-center rounded-sm">
+                        <span className="text-xs font-headline font-bold text-on-surface opacity-40">{brand.name}</span>
+                        <span className="text-[8px] font-label uppercase tracking-widest text-secondary mt-1">Cover Needed</span>
+                      </div>
+                    )}
+                  </motion.div>
+                  <div className="absolute -bottom-4 left-[10%] w-[80%] h-4 bg-black/10 blur-md rounded-full -z-10 group-hover:opacity-50 transition-opacity" />
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+
+          {filteredBrands.length === 0 && (
             <motion.div 
-              key={brand.id}
-              variants={{
-                hidden: { opacity: 0, y: 40 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }
-              }}
-              className="card-break-inside group relative"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              className="w-full flex flex-col items-center justify-center text-on-surface-variant opacity-60 mt-20"
             >
-              <div className={`${brand.bg} p-8 rounded-xl shadow-sm border border-outline-variant/10 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden`}>
-                
-                {/* Pack Visualizer */}
-                <div className="relative w-40 h-56 mx-auto mb-8 perspective-1000 cursor-pointer">
-                  {/* Pack Lid Top half */}
-                  <div className="absolute top-0 w-full h-14 bg-black/5 dark:bg-black/20 z-20 origin-top group-hover:[transform:rotateX(-110deg)] transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] border-b border-white/10 border-t border-t-white/30 backdrop-blur-sm shadow-inner" />
-                  
-                  {brand.renderPack()}
-
-                  {/* Cigarette Tips inside */}
-                  <div className="absolute top-3 left-4 right-4 flex gap-[2px] justify-center z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
-                    <div className="w-2 h-10 bg-[#fff8f1] rounded-t-sm border border-black/10" />
-                    <div className="w-2 h-12 bg-[#fff8f1] rounded-t-sm border border-black/10 -translate-y-1" />
-                    <div className="w-2 h-11 bg-[#fff8f1] rounded-t-sm border border-black/10" />
-                  </div>
-                </div>
-
-                <h3 className={`font-headline text-2xl mb-2 ${brand.textColors?.title || "text-primary"}`}>
-                  {brand.name}
-                </h3>
-                <p className={`font-body text-sm mb-4 leading-relaxed ${brand.textColors?.desc || "text-on-surface-variant"}`}>
-                  {brand.desc}
-                </p>
-                
-                <div className={`flex justify-between items-center pt-4 border-t ${brand.textColors?.border || "border-outline-variant/10"}`}>
-                  <span className={`font-label text-[10px] uppercase tracking-widest ${brand.textColors?.tag || "text-on-surface-variant"}`}>
-                    {brand.tag} | {brand.nic}
-                  </span>
-                  <button className={`${brand.textColors?.icon || "text-secondary"} hover:scale-110 active:scale-95 transition-transform`}>
-                    <Bookmark className="w-5 h-5" />
-                  </button>
-                </div>
-
-              </div>
+              <Search className="w-12 h-12 mb-4" />
+              <p className="font-headline text-2xl italic">No brands found in the humidor.</p>
+              <button 
+                onClick={() => { setSearchQuery(""); setActiveCategory("All"); }}
+                className="mt-4 text-xs font-label uppercase tracking-widest text-secondary hover:underline"
+              >
+                Clear Filters
+              </button>
             </motion.div>
-          ))}
+          )}
         </motion.div>
+
+        {/* Expanded View Modal */}
+        <AnimatePresence>
+          {selectedId && selectedBrand && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 md:p-12 overflow-y-auto">
+              
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setSelectedId(null)}
+                className="fixed inset-0 bg-surface-variant/90 backdrop-blur-md cursor-pointer"
+              />
+
+              <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center gap-12 max-w-5xl w-full my-auto">
+                
+                {/* 3D Expanding Pack */}
+                <motion.div 
+                  layoutId={`pack-envelope-${selectedBrand.id}`}
+                  className="relative w-64 h-96 perspective-1000 shrink-0 shadow-2xl z-20"
+                >
+                  {/* Flipping Lid Component */}
+                  <motion.div
+                    initial={{ rotateX: 0 }}
+                    animate={{ rotateX: -115 }}
+                    exit={{ rotateX: 0 }}
+                    transition={{ delay: 0.3, duration: 0.8, ease: [0.2, 1, 0.3, 1] }}
+                    className="absolute top-0 w-full h-[30%] origin-bottom z-30 shadow-inner overflow-hidden border-b border-black/20"
+                    style={{ backgroundColor: selectedBrand.lidColor, transformOrigin: 'top' }}
+                  >
+                     {selectedBrand.coverImage ? (
+                       <FallbackImage 
+                         src={selectedBrand.coverImage} 
+                         className="absolute top-0 left-0 w-full h-[333.33%] object-cover object-top" 
+                         alt="" 
+                         fallback={<div className="w-full h-full opacity-30 bg-gradient-to-b from-white/20 to-black/20" />}
+                       />
+                     ) : (
+                       <div className="w-full h-full opacity-30 bg-gradient-to-b from-white/20 to-black/20" />
+                     )}
+                  </motion.div>
+
+                  <motion.div 
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                    transition={{ delay: 0.6, duration: 0.5, ease: "easeOut" }}
+                    className="absolute top-4 left-4 right-4 flex justify-between z-10 px-2"
+                  >
+                     {Array.from({length: 6}).map((_, i) => (
+                       <div 
+                         key={i} 
+                         className="w-[12%] h-[200px] bg-gradient-to-r from-[#ffe0cc] to-[#ffeddf] rounded-t-sm shadow-sm border border-black/5" 
+                         style={{ transform: `translateY(${i%2===0 ? '6px': '0px'})` }} 
+                       />
+                     ))}
+                  </motion.div>
+
+                  {/* Pack Body Base */}
+                  <motion.div 
+                    layoutId={`pack-front-${selectedBrand.id}`}
+                    className="absolute top-[30%] w-full h-[70%] bg-white shadow-2xl z-20 overflow-hidden border-t border-black/10 flex flex-col"
+                  >
+                     {selectedBrand.coverImage ? (
+                       <FallbackImage 
+                         src={selectedBrand.coverImage} 
+                         className="absolute bottom-0 left-0 w-full h-[142.85%] object-cover object-bottom" 
+                         alt="" 
+                         fallback={
+                           <div className="w-full h-full bg-surface-variant flex flex-col justify-center items-center p-4 text-center">
+                              <span className="text-xl font-headline font-bold text-on-surface opacity-40">{selectedBrand.name}</span>
+                              <span className="text-[10px] font-label uppercase tracking-widest text-secondary mt-2">Authentic Cover Required</span>
+                              <span className="text-[8px] text-on-surface opacity-30 mt-2 underline">{selectedBrand.coverImage}</span>
+                           </div>
+                         }
+                       />
+                     ) : selectedBrand.renderPackFront ? (
+                       <div className="w-full h-[142.85%] absolute bottom-0 left-0">
+                         {selectedBrand.renderPackFront()}
+                       </div>
+                     ) : (
+                       <div className="w-full h-full bg-surface-variant flex flex-col justify-center items-center p-4 text-center">
+                          <span className="text-xl font-headline font-bold text-on-surface opacity-40">{selectedBrand.name}</span>
+                          <span className="text-[10px] font-label uppercase tracking-widest text-secondary mt-2">Authentic Cover Required</span>
+                       </div>
+                     )}
+                  </motion.div>
+                </motion.div>
+
+                {/* Details Card */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20, filter: "blur(4px)" }}
+                  animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, x: -10, filter: "blur(2px)", transition: { duration: 0.2 } }}
+                  transition={{ delay: 0.45, duration: 0.6, ease: "easeOut" }}
+                  className="flex-1 bg-surface-bright p-10 md:p-14 rounded-2xl shadow-xl border border-outline-variant/30 relative max-h-[90vh] overflow-y-auto"
+                >
+                  <button 
+                    onClick={() => setSelectedId(null)} 
+                    className="absolute top-6 right-6 p-3 text-on-surface hover:bg-surface-container rounded-full transition-colors group z-50"
+                  >
+                    <X className="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" />
+                  </button>
+
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="font-label text-xs uppercase tracking-[0.3em] font-semibold text-secondary block">
+                      {selectedBrand.tag}
+                    </span>
+                    <span className="w-1 h-1 rounded-full bg-on-surface-variant/30" />
+                    <span className="font-label text-[10px] uppercase tracking-widest text-on-surface-variant/60 block">
+                      {selectedBrand.category} Archive
+                    </span>
+                  </div>
+                  
+                  <h2 className="font-headline text-5xl md:text-6xl italic leading-[1.1] text-primary mb-8">
+                    {selectedBrand.name}
+                  </h2>
+                  
+                  <div className="w-16 h-px bg-on-surface/20 mb-8" />
+                  
+                  <p className="font-body text-xl leading-relaxed text-on-surface-variant mb-12">
+                    {selectedBrand.desc}
+                  </p>
+                  
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 p-6 bg-surface-container-low rounded-xl border border-outline-variant/20">
+                    <div className="space-y-1">
+                      <span className="font-label text-[10px] uppercase tracking-[0.2em] text-on-surface/50 font-bold">Yield Profile</span>
+                      <div className="font-headline text-3xl text-primary">{selectedBrand.nic}</div>
+                    </div>
+                    
+                    <button className="bg-secondary text-primary-container px-8 py-4 rounded-full font-label uppercase text-xs font-bold tracking-widest hover:-translate-y-1 active:scale-95 transition-all shadow-md flex items-center justify-center gap-3 w-full sm:w-auto">
+                       <Bookmark className="w-4 h-4" /> 
+                       <span>Archive</span>
+                    </button>
+                  </div>
+                </motion.div>
+                
+              </div>
+            </div>
+          )}
+        </AnimatePresence>
 
       </div>
     </section>
