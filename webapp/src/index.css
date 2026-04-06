@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  html, body {
+    @apply overflow-x-hidden max-w-full;
+  }
   body {
     cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"><circle cx="6" cy="6" r="4" fill="%23755b00" opacity="0.8"/></svg>'), auto;
     @apply bg-background text-on-background font-body selection:bg-secondary/30 antialiased;
