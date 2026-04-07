@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export function SmokeRoom() {
   const [daily, setDaily] = useState(20);
-  const [price, setPrice] = useState(14.50);
+  const [price, setPrice] = useState(350);
 
   const annualSpend = daily * 365 * (price / 20);
   const totalSticks = daily * 365;
@@ -56,10 +56,10 @@ export function SmokeRoom() {
               <div className="space-y-4">
                 <div className="flex justify-between font-label text-xs uppercase tracking-widest text-primary/60">
                   <span>Price per Pack (20s)</span>
-                  <span className="text-primary font-bold">${price.toFixed(2)}</span>
+                  <span className="text-primary font-bold">₹{price}</span>
                 </div>
                 <input 
-                  type="range" min="5" max="40" step="0.5" 
+                  type="range" min="50" max="1000" step="10" 
                   value={price} onChange={e => setPrice(Number(e.target.value))}
                   className="w-full h-1 bg-surface-container-highest appearance-none cursor-pointer accent-secondary rounded-full"
                 />
@@ -74,7 +74,7 @@ export function SmokeRoom() {
                     animate={{ opacity: 1, scale: 1 }}
                     className="font-headline text-3xl md:text-4xl text-primary"
                   >
-                    ${Math.round(annualSpend).toLocaleString()}
+                    ₹{Math.round(annualSpend).toLocaleString('en-IN')}
                   </motion.div>
                 </div>
                 <div className="space-y-1">

@@ -5,6 +5,7 @@ import { BrandsGrid } from "./components/home/BrandsGrid";
 import { SmokeRoom } from "./components/home/SmokeRoom";
 import { About } from "./components/home/About";
 import { CinematicIntro } from "./components/home/CinematicIntro";
+import { ToolsSection } from "./components/home/ToolsSection";
 
 function App() {
   const [introFinished, setIntroFinished] = useState(false);
@@ -32,6 +33,7 @@ function App() {
           <Hero />
           <BrandsGrid />
           <SmokeRoom />
+          <ToolsSection />
           <About />
         </Layout>
       )}

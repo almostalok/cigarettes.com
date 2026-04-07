@@ -39,6 +39,9 @@ export function Navbar() {
             <a href="#smoke-room" className="text-primary-container/70 dark:text-[#eee1c9]/70 hover:text-secondary transition-colors duration-300">
               The Smoke Room
             </a>
+            <a href="#tools" className="text-primary-container/70 dark:text-[#eee1c9]/70 hover:text-secondary transition-colors duration-300">
+              Daily Rituals
+            </a>
             <a href="#about" className="text-primary-container/70 dark:text-[#eee1c9]/70 hover:text-secondary transition-colors duration-300">
               About
             </a>

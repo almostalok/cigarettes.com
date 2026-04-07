@@ -50,9 +50,9 @@ export function BrandsGrid() {
           </div>
           
           {/* Search & Filter Toolbar */}
-          <div className="flex flex-col sm:flex-row gap-4 lg:items-center">
+          <div className="flex flex-col sm:flex-row gap-4 lg:items-center w-full min-w-0">
             {/* Search Input */}
-            <div className="relative flex items-center bg-surface-bright px-4 py-3 rounded-full border border-outline-variant/30 shadow-sm focus-within:border-secondary transition-colors">
+            <div className="relative flex items-center bg-surface-bright px-4 py-3 rounded-full border border-outline-variant/30 shadow-sm focus-within:border-secondary transition-colors shrink-0">
               <Search className="text-on-surface-variant w-4 h-4 mr-3" />
               <input
                 type="text"
@@ -64,8 +64,8 @@ export function BrandsGrid() {
             </div>
 
             {/* Category Pills */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 hide-scrollbar rounded-full p-1 bg-surface-container border border-outline-variant/20 shadow-inner">
-              <div className="bg-surface-bright p-2 rounded-full sm:hidden mr-2">
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 hide-scrollbar rounded-full p-1 bg-surface-container border border-outline-variant/20 shadow-inner w-full max-w-full min-w-0">
+              <div className="bg-surface-bright p-2 rounded-full sm:hidden mr-2 shrink-0">
                 <SlidersHorizontal className="w-4 h-4 text-secondary" />
               </div>
               {CATEGORIES.map(category => (
