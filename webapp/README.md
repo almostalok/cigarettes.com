@@ -1,73 +1,122 @@
-# React + TypeScript + Vite
+# Cigarettes.com — Web Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An editorial web experience dedicated to the heritage, craft, and culture of premium tobacco. Cigarettes.com is an archival platform featuring curated brand collections, cinematic presentation, and a rich design system inspired by old-world print media.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- **Cinematic Intro** — A full-screen animated introduction that plays once per session.
+- **Brands Grid** — Curated catalog of 1,200+ archived tobacco brands.
+- **The Smoke Room** — An immersive, editorial content section.
+- **Tools Section** — Utility features for enthusiasts and collectors.
+- **About** — Philosophy and statistics behind the archive (origins dating to 1871).
+- **Animated UI** — Smooth, physics-based animations powered by Framer Motion throughout every section.
+- **Responsive Design** — Fully responsive layout across desktop and mobile viewports.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| Technology | Purpose |
+|---|---|
+| [React 19](https://react.dev/) | UI framework |
+| [TypeScript](https://www.typescriptlang.org/) | Type-safe JavaScript |
+| [Vite](https://vite.dev/) | Build tool & dev server |
+| [Tailwind CSS v3](https://tailwindcss.com/) | Utility-first styling |
+| [Framer Motion](https://www.framer-motion.com/) | Animations & transitions |
+| [Lucide React](https://lucide.dev/) | Icon library |
+| [clsx](https://github.com/lukeed/clsx) + [tailwind-merge](https://github.com/dcastil/tailwind-merge) | Conditional class utilities |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Project Structure
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+webapp/
+├── public/                 # Static assets
+├── src/
+│   ├── assets/             # Images and SVGs
+│   ├── components/
+│   │   ├── home/           # Page sections (Hero, BrandsGrid, SmokeRoom, etc.)
+│   │   └── layout/         # Layout wrapper (navbar, footer)
+│   ├── data/
+│   │   └── brands.tsx      # Tobacco brand data
+│   ├── lib/                # Shared utilities
+│   ├── App.tsx             # Root component with intro gate logic
+│   ├── main.tsx            # Application entry point
+│   └── index.css           # Global styles
+├── tailwind.config.js      # Design system tokens (colors, fonts, radii)
+├── vite.config.ts          # Vite configuration
+└── tsconfig.json           # TypeScript configuration
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Getting Started
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) v18 or higher
+- npm v9 or higher
+
+### Installation
+
+```bash
+# From the webapp directory
+npm install
 ```
+
+### Development
+
+```bash
+npm run dev
+```
+
+Opens the app at `http://localhost:5173` with Hot Module Replacement (HMR) enabled.
+
+### Build
+
+```bash
+npm run build
+```
+
+Outputs a production-ready bundle to `dist/`.
+
+### Preview Production Build
+
+```bash
+npm run preview
+```
+
+Serves the `dist/` folder locally to verify the production build.
+
+### Lint
+
+```bash
+npm run lint
+```
+
+Runs ESLint across all TypeScript and TSX source files.
+
+---
+
+## Design System
+
+The design system is defined in `tailwind.config.js` and uses a warm, editorial palette with custom typography and border radii.
+
+**Typography**
+
+| Token | Font | Usage |
+|---|---|---|
+| `font-headline` | Newsreader (serif) | Headings, display text |
+| `font-body` | Noto Serif (serif) | Body copy |
+| `font-label` | Work Sans (sans-serif) | Labels, buttons, UI text |
+
+**Color Palette**
+
+The palette follows Material Design 3 color role naming (e.g., `primary`, `on-primary`, `surface`, `secondary-container`) adapted to a dark tobacco-brown and warm gold tone.
+
+**Border Radius**
+
+Intentionally conservative — default `2px`, large `4px`, xl `8px` — to maintain a refined, print-inspired aesthetic.
