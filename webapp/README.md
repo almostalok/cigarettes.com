@@ -1,18 +1,25 @@
 # Cigarettes.com — Web Application
 
-An editorial web experience dedicated to the heritage, craft, and culture of premium tobacco. Cigarettes.com is an archival platform featuring curated brand collections, cinematic presentation, and a rich design system inspired by old-world print media.
+> *An editorial web experience dedicated to the heritage, craft, and culture of premium tobacco.*
+
+Cigarettes.com is an archival platform built to feel less like a website and more like a private library at night — curated brand collections, cinematic presentation, and a design system drawn from the vocabulary of old-world print media.
+
+The root README lives [one level up](../README.md) and covers the full philosophy, project overview, and contribution guide. This document covers the webapp-specific setup and structure.
 
 ---
 
 ## Features
 
-- **Cinematic Intro** — A full-screen animated introduction that plays once per session.
-- **Brands Grid** — Curated catalog of 1,200+ archived tobacco brands.
-- **The Smoke Room** — An immersive, editorial content section.
-- **Tools Section** — Utility features for enthusiasts and collectors.
-- **About** — Philosophy and statistics behind the archive (origins dating to 1871).
-- **Animated UI** — Smooth, physics-based animations powered by Framer Motion throughout every section.
-- **Responsive Design** — Fully responsive layout across desktop and mobile viewports.
+| Feature | Description |
+|---|---|
+| 🎬 **Cinematic Intro** | Full-screen animated introduction — plays once per session, sets the tone before a single brand is shown |
+| 🗂 **Brands Grid** | Scrollable, filterable catalog of **1,200+ archived tobacco brands** |
+| 🍂 **The Smoke Room** | Immersive editorial section — long-form content, atmospheric pacing |
+| 🛠 **Tools Section** | Utility features for enthusiasts and collectors |
+| ⏱ **Ritual Timer** | A mindful companion for those who appreciate slowness |
+| 📖 **About** | Philosophy and archive statistics — origins dating to 1871 |
+| ✨ **Animated UI** | Physics-based spring animations via Framer Motion throughout every section |
+| 📱 **Responsive** | Fully responsive layout across desktop and mobile viewports |
 
 ---
 
@@ -20,13 +27,13 @@ An editorial web experience dedicated to the heritage, craft, and culture of pre
 
 | Technology | Purpose |
 |---|---|
-| [React 19](https://react.dev/) | UI framework |
-| [TypeScript](https://www.typescriptlang.org/) | Type-safe JavaScript |
-| [Vite](https://vite.dev/) | Build tool & dev server |
-| [Tailwind CSS v3](https://tailwindcss.com/) | Utility-first styling |
-| [Framer Motion](https://www.framer-motion.com/) | Animations & transitions |
-| [Lucide React](https://lucide.dev/) | Icon library |
-| [clsx](https://github.com/lukeed/clsx) + [tailwind-merge](https://github.com/dcastil/tailwind-merge) | Conditional class utilities |
+| [React 19](https://react.dev/) | UI framework — concurrent features, modern rendering primitives |
+| [TypeScript](https://www.typescriptlang.org/) | Type-safe JavaScript — confidence as the archive scales |
+| [Vite](https://vitejs.dev/) | Build tool & dev server — sub-second HMR |
+| [Tailwind CSS v3](https://tailwindcss.com/) | Utility-first styling — the full palette lives in config |
+| [Framer Motion](https://www.framer.com/motion/) | Animations & transitions — spring physics only |
+| [Lucide React](https://lucide.dev/) | Icon library — clean, never distracting |
+| [clsx](https://github.com/lukeed/clsx) + [tailwind-merge](https://github.com/dcastil/tailwind-merge) | Conditional class utilities — collision-safe, always |
 
 ---
 
@@ -38,10 +45,18 @@ webapp/
 ├── src/
 │   ├── assets/             # Images and SVGs
 │   ├── components/
-│   │   ├── home/           # Page sections (Hero, BrandsGrid, SmokeRoom, etc.)
-│   │   └── layout/         # Layout wrapper (navbar, footer)
+│   │   ├── home/           # Page sections
+│   │   │   ├── CinematicIntro.tsx   # The threshold
+│   │   │   ├── Hero.tsx             # First impression
+│   │   │   ├── BrandsGrid.tsx       # The archive itself
+│   │   │   ├── SmokeRoom.tsx        # Editorial space
+│   │   │   ├── ToolsSection.tsx     # Collector utilities
+│   │   │   ├── About.tsx            # History & philosophy
+│   │   │   ├── RitualTimer.tsx      # Mindful companion
+│   │   │   └── Ashtray.tsx          # The quiet corner
+│   │   └── layout/         # Navbar, Footer
 │   ├── data/
-│   │   └── brands.tsx      # Tobacco brand data
+│   │   └── brands.tsx      # 1,200+ tobacco brand entries
 │   ├── lib/                # Shared utilities
 │   ├── App.tsx             # Root component with intro gate logic
 │   ├── main.tsx            # Application entry point
@@ -71,52 +86,49 @@ npm install
 
 ```bash
 npm run dev
+# → http://localhost:5173  (HMR enabled)
 ```
-
-Opens the app at `http://localhost:5173` with Hot Module Replacement (HMR) enabled.
 
 ### Build
 
 ```bash
-npm run build
+npm run build   # outputs production bundle to dist/
 ```
-
-Outputs a production-ready bundle to `dist/`.
 
 ### Preview Production Build
 
 ```bash
-npm run preview
+npm run preview   # serves dist/ locally to verify
 ```
-
-Serves the `dist/` folder locally to verify the production build.
 
 ### Lint
 
 ```bash
-npm run lint
+npm run lint   # runs ESLint across all .ts and .tsx files
 ```
-
-Runs ESLint across all TypeScript and TSX source files.
 
 ---
 
 ## Design System
 
-The design system is defined in `tailwind.config.js` and uses a warm, editorial palette with custom typography and border radii.
+Defined in `tailwind.config.js`. Everything — color, spacing, type — comes from a single source of truth.
 
 **Typography**
 
 | Token | Font | Usage |
 |---|---|---|
-| `font-headline` | Newsreader (serif) | Headings, display text |
-| `font-body` | Noto Serif (serif) | Body copy |
-| `font-label` | Work Sans (sans-serif) | Labels, buttons, UI text |
+| `font-headline` | **Newsreader** *(serif)* | Headings, display text, pull quotes |
+| `font-body` | **Noto Serif** *(serif)* | Body copy, descriptions |
+| `font-label` | **Work Sans** *(sans-serif)* | Labels, buttons, UI chrome |
 
 **Color Palette**
 
-The palette follows Material Design 3 color role naming (e.g., `primary`, `on-primary`, `surface`, `secondary-container`) adapted to a dark tobacco-brown and warm gold tone.
+Follows Material Design 3 color role naming (`primary`, `on-primary`, `surface`, `secondary-container`) adapted to a deep tobacco-brown background (`#0d0300`) with warm gold and parchment accents. Every shade earns its place.
 
 **Border Radius**
 
-Intentionally conservative — default `2px`, large `4px`, xl `8px` — to maintain a refined, print-inspired aesthetic.
+Intentionally conservative — default `2px`, large `4px`, xl `8px`. Sharp corners. Print-inspired. The UI has opinions.
+
+---
+
+*Part of the [cigarettes.com](https://github.com/almostalok/cigarettes.com) archive — archived with care, rendered with craft.*

@@ -39,6 +39,20 @@
 
 > _"A love letter to packaging, craft, and the art of slow living."_
 
+Not a shop. Not a database dump. A deliberate act of preservation — where every brand entry is a window into the era, geography, and culture that shaped it. From Wills Navy Cut to Dji Sam Soe, from Sobranie to a forgotten regional stub from 1940s Bengal, each one belongs here.
+
+<br/>
+
+---
+
+## ✦ The Philosophy
+
+Tobacco packaging is one of the most concentrated forms of graphic design history. Tiny canvases that carried national identity, class aspiration, colonial tension, and pure artistry — now mostly forgotten.
+
+This archive exists because those stories deserve a proper home. Not a Wikipedia list, not an auction catalogue — a **living, breathing experience** that communicates the weight of history through the design itself.
+
+The interface is built to feel like entering a private library at night. Every transition, every typographic choice, every shade of amber and brown is intentional. The cinematic intro isn't decorative — it's a threshold you cross before the archive opens to you.
+
 <br/>
 
 ---
@@ -50,25 +64,31 @@
 <td width="50%" valign="top">
 
 ### 🎬 Cinematic Intro
-Full-screen animated introduction — plays once per session using physics-based transitions that set the tone before a single brand is shown.
+A full-screen animated introduction that plays once per session — physics-based transitions, no skipping, no rushing. It sets the tone before a single brand is shown. The archive earns your attention.
 
 ### 🗂 Brands Grid
-A scrollable, filterable archive of 1,200+ tobacco brands — organized by category, strength, and origin. Each card is a miniature exhibition.
+A scrollable, filterable archive of **1,200+ tobacco brands** organized by category, strength, and origin. Each card is a miniature exhibition. No noise. No clutter.
 
 ### 🍂 The Smoke Room
-An immersive editorial section with long-form content, atmospheric visuals, and a pace that rewards attention.
+An immersive editorial section with long-form content, atmospheric visuals, and a pace that rewards attention. This is where the archive breathes.
+
+### ⏱ Ritual Timer
+A mindful companion tool — because some things are worth doing slowly.
 
 </td>
 <td width="50%" valign="top">
 
 ### 🛠 Tools Section
-Utility features for enthusiasts and collectors — precision-built, functionally minimal.
+Utility features for enthusiasts and collectors — precision-built, functionally minimal. Nothing you don't need, everything you do.
 
 ### 📖 About
-Philosophy, archive statistics, and a timeline stretching back to **1871** — tracing the lineage of the collection.
+Philosophy, archive statistics, and a timeline stretching back to **1871** — tracing the full lineage of the collection, one decade at a time.
+
+### 🪴 Ashtray
+A quiet corner of the archive. You'll know it when you find it.
 
 ### ✨ Animated Throughout
-Every section uses **Framer Motion** for smooth, physics-based transitions — zero janky CSS hacks.
+Every section uses **Framer Motion** for smooth, physics-based spring transitions — zero janky CSS hacks, zero layout thrash. The kind of polish that's invisible until it's gone.
 
 </td>
 </tr>
@@ -84,13 +104,13 @@ Every section uses **Framer Motion** for smooth, physics-based transitions — z
 
 | Technology | Role | Why |
 |---|---|---|
-| [React 19](https://react.dev/) | UI Framework | Concurrent features, server actions |
-| [TypeScript](https://www.typescriptlang.org/) | Type Safety | Confidence at scale |
-| [Vite](https://vitejs.dev/) | Build Tool | Sub-second HMR, lightning builds |
-| [Tailwind CSS v3](https://tailwindcss.com/) | Styling | Design-token-first utility classes |
-| [Framer Motion](https://www.framer.com/motion/) | Animations | Physics-based spring transitions |
-| [Lucide React](https://lucide.dev/) | Icons | Clean, consistent iconography |
-| [clsx](https://github.com/lukeed/clsx) + [tailwind-merge](https://github.com/dcastil/tailwind-merge) | Class Utilities | Collision-safe dynamic classnames |
+| [React 19](https://react.dev/) | UI Framework | Concurrent features, modern rendering primitives |
+| [TypeScript](https://www.typescriptlang.org/) | Type Safety | Confidence at scale — the archive grows fast |
+| [Vite](https://vitejs.dev/) | Build Tool | Sub-second HMR, lightning production builds |
+| [Tailwind CSS v3](https://tailwindcss.com/) | Styling | Design-token-first; the palette lives in config |
+| [Framer Motion](https://www.framer.com/motion/) | Animations | Spring physics — the only animation model worth using |
+| [Lucide React](https://lucide.dev/) | Icons | Clean, consistent, never distracting |
+| [clsx](https://github.com/lukeed/clsx) + [tailwind-merge](https://github.com/dcastil/tailwind-merge) | Class Utilities | Collision-safe dynamic classnames, every time |
 
 </div>
 
@@ -107,14 +127,14 @@ cigarettes.com/
 │   └── src/
 │       ├── components/
 │       │   ├── home/               # Page sections
-│       │   │   ├── CinematicIntro.tsx
-│       │   │   ├── Hero.tsx
-│       │   │   ├── BrandsGrid.tsx
-│       │   │   ├── SmokeRoom.tsx
-│       │   │   ├── ToolsSection.tsx
-│       │   │   ├── About.tsx
-│       │   │   ├── RitualTimer.tsx
-│       │   │   └── Ashtray.tsx
+│       │   │   ├── CinematicIntro.tsx   # The threshold
+│       │   │   ├── Hero.tsx             # First impression
+│       │   │   ├── BrandsGrid.tsx       # The archive itself
+│       │   │   ├── SmokeRoom.tsx        # Editorial space
+│       │   │   ├── ToolsSection.tsx     # Collector utilities
+│       │   │   ├── About.tsx            # History & philosophy
+│       │   │   ├── RitualTimer.tsx      # Mindful companion
+│       │   │   └── Ashtray.tsx          # The quiet corner
 │       │   └── layout/             # Navbar, Footer
 │       ├── data/
 │       │   └── brands.tsx          # 1,200+ brand entries
@@ -174,7 +194,7 @@ npm run lint
 
 ## ✦ Design System
 
-The visual identity is built around a warm, editorial palette — equal parts **old-world print media** and **dark luxury**.
+The visual identity is built around a warm, editorial palette — equal parts **old-world print media** and **dark luxury**. Every color, radius, and typeface is a deliberate signal: this is not a website, it is a space.
 
 <div align="center">
 
@@ -199,7 +219,7 @@ The visual identity is built around a warm, editorial palette — equal parts **
 
 </div>
 
-> **Border Radius**: Intentionally conservative — `2px` default, `4px` large, `8px` XL — preserving a refined, print-inspired aesthetic.
+> **Border Radius**: Intentionally conservative — `2px` default, `4px` large, `8px` XL — preserving a refined, print-inspired aesthetic. Sharp corners. Serious intent.
 
 <br/>
 
@@ -207,19 +227,48 @@ The visual identity is built around a warm, editorial palette — equal parts **
 
 ## ✦ Brand Categories
 
-The archive spans the full spectrum of tobacco culture:
+The archive spans the full spectrum of tobacco culture — from factory floors in Chennai to tobacconists in Vienna:
 
 | Category | Description |
 |---|---|
-| 🏆 **Premium / Luxury** | Limited-edition and collector-tier brands |
+| 🏆 **Premium / Luxury** | Limited-edition and collector-tier brands — the art pieces |
 | 🌿 **Light / Mild** | Low-nicotine, smooth-profile variants |
 | ❄️ **Menthol** | Cooling and capsule-filter innovations |
-| 🪔 **Unfiltered** | Raw, traditional, working-class staples |
-| 🌏 **Indian Local** | ITC, GPI, VST — the subcontinent's own |
-| 🌿 **Herbal / Ayurvedic** | Zero-nicotine botanical blends |
-| 🌋 **Kretek** | Indonesian clove cigarettes |
-| 🌍 **International** | Global icons — Marlboro, Camel, Lucky Strike |
-| 💰 **Budget** | Mass-market, economy-tier staples |
+| 🪔 **Unfiltered** | Raw, traditional, working-class staples — the originals |
+| 🌏 **Indian Local** | ITC, GPI, VST — the subcontinent's own rich lineage |
+| 🌿 **Herbal / Ayurvedic** | Zero-nicotine botanical blends, ancient and modern |
+| 🌋 **Kretek** | Indonesian clove cigarettes — a culture unto themselves |
+| 🌍 **International** | Global icons — Marlboro, Camel, Lucky Strike, Gauloises |
+| 💰 **Budget** | Mass-market, economy-tier staples — the everyday companions |
+
+<br/>
+
+---
+
+## ✦ Contributing
+
+The archive is only as good as its depth. If you know a brand that belongs here — obscure, regional, discontinued, or simply overlooked — contributions are welcome.
+
+1. **Fork** the repository
+2. Add your brand entries to [`webapp/src/data/brands.tsx`](./webapp/src/data/brands.tsx) — follow the existing data shape
+3. Run `npm run lint` to verify everything is clean
+4. Open a **Pull Request** with a brief note on the brand(s) added and their provenance
+
+For larger contributions (new sections, design system changes, tooling), open an issue first so the direction can be aligned before significant work is invested.
+
+<br/>
+
+---
+
+## ✦ Roadmap
+
+Things being considered for the archive's future:
+
+- [ ] **Brand detail pages** — dedicated views with full history, imagery, and editorial notes
+- [ ] **Search** — full-text search across brand names, origins, and descriptions
+- [ ] **Timeline view** — browse the archive chronologically from 1871 to present
+- [ ] **Collections** — curated sets grouped by era, region, or aesthetic
+- [ ] **Print mode** — a CSS print stylesheet so the archive can be rendered to paper, fittingly
 
 <br/>
 
