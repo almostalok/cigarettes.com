@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { BRANDS } from "../../data/brands";
-import { Plus, Flame, BarChart2 } from "lucide-react";
+import { Flame } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface SmokeLog {
