@@ -1,73 +1,134 @@
-# React + TypeScript + Vite
+# Cigarettes.com — Web Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> *An editorial web experience dedicated to the heritage, craft, and culture of premium tobacco.*
 
-Currently, two official plugins are available:
+Cigarettes.com is an archival platform built to feel less like a website and more like a private library at night — curated brand collections, cinematic presentation, and a design system drawn from the vocabulary of old-world print media.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The root README lives [one level up](../README.md) and covers the full philosophy, project overview, and contribution guide. This document covers the webapp-specific setup and structure.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+| Feature | Description |
+|---|---|
+| 🎬 **Cinematic Intro** | Full-screen animated introduction — plays once per session, sets the tone before a single brand is shown |
+| 🗂 **Brands Grid** | Scrollable, filterable catalog of **1,200+ archived tobacco brands** |
+| 🍂 **The Smoke Room** | Immersive editorial section — long-form content, atmospheric pacing |
+| 🛠 **Tools Section** | Utility features for enthusiasts and collectors |
+| ⏱ **Ritual Timer** | A mindful companion for those who appreciate slowness |
+| 📖 **About** | Philosophy and archive statistics — origins dating to 1871 |
+| ✨ **Animated UI** | Physics-based spring animations via Framer Motion throughout every section |
+| 📱 **Responsive** | Fully responsive layout across desktop and mobile viewports |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+| Technology | Purpose |
+|---|---|
+| [React 19](https://react.dev/) | UI framework — concurrent features, modern rendering primitives |
+| [TypeScript](https://www.typescriptlang.org/) | Type-safe JavaScript — confidence as the archive scales |
+| [Vite](https://vitejs.dev/) | Build tool & dev server — sub-second HMR |
+| [Tailwind CSS v3](https://tailwindcss.com/) | Utility-first styling — the full palette lives in config |
+| [Framer Motion](https://www.framer.com/motion/) | Animations & transitions — spring physics only |
+| [Lucide React](https://lucide.dev/) | Icon library — clean, never distracting |
+| [clsx](https://github.com/lukeed/clsx) + [tailwind-merge](https://github.com/dcastil/tailwind-merge) | Conditional class utilities — collision-safe, always |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## Project Structure
+
+```
+webapp/
+├── public/                 # Static assets
+├── src/
+│   ├── assets/             # Images and SVGs
+│   ├── components/
+│   │   ├── home/           # Page sections
+│   │   │   ├── CinematicIntro.tsx   # The threshold
+│   │   │   ├── Hero.tsx             # First impression
+│   │   │   ├── BrandsGrid.tsx       # The archive itself
+│   │   │   ├── SmokeRoom.tsx        # Editorial space
+│   │   │   ├── ToolsSection.tsx     # Collector utilities
+│   │   │   ├── About.tsx            # History & philosophy
+│   │   │   ├── RitualTimer.tsx      # Mindful companion
+│   │   │   └── Ashtray.tsx          # The quiet corner
+│   │   └── layout/         # Navbar, Footer
+│   ├── data/
+│   │   └── brands.tsx      # 1,200+ tobacco brand entries
+│   ├── lib/                # Shared utilities
+│   ├── App.tsx             # Root component with intro gate logic
+│   ├── main.tsx            # Application entry point
+│   └── index.css           # Global styles
+├── tailwind.config.js      # Design system tokens (colors, fonts, radii)
+├── vite.config.ts          # Vite configuration
+└── tsconfig.json           # TypeScript configuration
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Getting Started
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) v18 or higher
+- npm v9 or higher
+
+### Installation
+
+```bash
+# From the webapp directory
+npm install
 ```
+
+### Development
+
+```bash
+npm run dev
+# → http://localhost:5173  (HMR enabled)
+```
+
+### Build
+
+```bash
+npm run build   # outputs production bundle to dist/
+```
+
+### Preview Production Build
+
+```bash
+npm run preview   # serves dist/ locally to verify
+```
+
+### Lint
+
+```bash
+npm run lint   # runs ESLint across all .ts and .tsx files
+```
+
+---
+
+## Design System
+
+Defined in `tailwind.config.js`. Everything — color, spacing, type — comes from a single source of truth.
+
+**Typography**
+
+| Token | Font | Usage |
+|---|---|---|
+| `font-headline` | **Newsreader** *(serif)* | Headings, display text, pull quotes |
+| `font-body` | **Noto Serif** *(serif)* | Body copy, descriptions |
+| `font-label` | **Work Sans** *(sans-serif)* | Labels, buttons, UI chrome |
+
+**Color Palette**
+
+Follows Material Design 3 color role naming (`primary`, `on-primary`, `surface`, `secondary-container`) adapted to a deep tobacco-brown background (`#0d0300`) with warm gold and parchment accents. Every shade earns its place.
+
+**Border Radius**
+
+Intentionally conservative — default `2px`, large `4px`, xl `8px`. Sharp corners. Print-inspired. The UI has opinions.
+
+---
+
+*Part of the [cigarettes.com](https://github.com/almostalok/cigarettes.com) archive — archived with care, rendered with craft.*
